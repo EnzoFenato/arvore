@@ -117,10 +117,30 @@ public class Main {
             }
         }
 
-            public int contarNosFolha(No node) {
+        public int contarNosFolha(No node) {
+            if (node == null) return 0;
+            if (node.esquerda == null && node.direita == null) return 1;
+            return contarNosFolha(node.esquerda) + contarNosFolha(node.direita);
+        }
+
+            public int contarNosFolhaNaoRec(No node) {
                 if (node == null) return 0;
-                if (node.esquerda == null && node.direita == null) return 1;
-                return contarNosFolha(node.esquerda) + contarNosFolha(node.direita);
+
+                int contador = 0;
+                Queue<No> fila = new LinkedList<>();
+                fila.add(node);
+
+                while (!fila.isEmpty()) {
+                    No atual = fila.poll();
+
+                    if (atual.esquerda == null && atual.direita == null) {
+                        contador++;
+                    }
+                    if (atual.esquerda != null) fila.add(atual.esquerda);
+                    if (atual.direita != null) fila.add(atual.direita);
+                }
+
+                return contador;
             }
 
         }
