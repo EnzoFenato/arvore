@@ -5,6 +5,7 @@ public class Main {
     class No {
         String valor;
         No esquerda, direita;
+        int fatordebalanceamento;
 
         public No(String valor) {
             this.valor = valor;
@@ -12,9 +13,9 @@ public class Main {
         }
     }
 
-        public class arvore {
+    public class arvore {
 
-            No raiz;
+        No raiz;
 
         public void Arvore() {
 
@@ -37,20 +38,20 @@ public class Main {
             raiz = NoA;
         }
 
-            public class contadornos {
+        public class contadornos {
 
-                public int contarnos (No node){
+            public int contarnos (No node){
 
-                    if (node == null) return 0;
-                    return 1 + contarnos(node.esquerda) + contarnos(node.direita);
-
-                }
+                if (node == null) return 0;
+                return 1 + contarnos(node.esquerda) + contarnos(node.direita);
 
             }
 
+        }
 
 
-            public int contarNos(No node) {
+
+        public int contarNos(No node) {
             if (node == null) return 0;
             return 1 + contarNos(node.esquerda) + contarNos(node.direita);
         }
@@ -65,26 +66,26 @@ public class Main {
 
         public void buscaPreOrdemNoRecu(No node, No inicio) {
             inicio = node;
-                while (node.esquerda != null) {
-                    if (node.esquerda == null){
+            while (node.esquerda != null) {
+                if (node.esquerda == null){
                     System.out.println(node.valor + " ");
                     inicio = node.direita;
+                } else {
+                    No prox = inicio.esquerda;
+                    while (prox.direita != null && prox.direita != inicio) {
+                        prox = prox.direita;
+                    }
+                    if (prox.direita == null) {
+                        System.out.println(inicio.valor + " ");
+                        prox.direita = inicio;
+                        inicio = inicio.esquerda;
                     } else {
-                        No prox = inicio.esquerda;
-                        while (prox.direita != null && prox.direita != inicio) {
-                            prox = prox.direita;
-                        }
-                        if (prox.direita == null) {
-                            System.out.println(inicio.valor + " ");
-                            prox.direita = inicio;
-                            inicio = inicio.esquerda;
-                        } else {
-                            prox.direita = null;
-                            inicio = inicio.direita;
-                        }
+                        prox.direita = null;
+                        inicio = inicio.direita;
                     }
                 }
             }
+        }
 
         public void buscaEmOrdem(No node) {
             if (node != null) {
@@ -123,25 +124,25 @@ public class Main {
             return contarNosFolha(node.esquerda) + contarNosFolha(node.direita);
         }
 
-            public int contarNosFolhaNaoRec(No node) {
-                if (node == null) return 0;
+        public int contarNosFolhaNaoRec(No node) {
+            if (node == null) return 0;
 
-                int contador = 0;
-                Queue<No> fila = new LinkedList<>();
-                fila.add(node);
+            int contador = 0;
+            Queue<No> fila = new LinkedList<>();
+            fila.add(node);
 
-                while (!fila.isEmpty()) {
-                    No atual = fila.poll();
+            while (!fila.isEmpty()) {
+                No atual = fila.poll();
 
-                    if (atual.esquerda == null && atual.direita == null) {
-                        contador++;
-                    }
-                    if (atual.esquerda != null) fila.add(atual.esquerda);
-                    if (atual.direita != null) fila.add(atual.direita);
+                if (atual.esquerda == null && atual.direita == null) {
+                    contador++;
                 }
-
-                return contador;
+                if (atual.esquerda != null) fila.add(atual.esquerda);
+                if (atual.direita != null) fila.add(atual.direita);
             }
 
+            return contador;
         }
+
+    }
 }
