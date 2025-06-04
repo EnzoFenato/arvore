@@ -144,5 +144,128 @@ public class Main {
             return contador;
         }
 
+        public class arvoreAVL {
+
+            class Node {
+                int valor;
+                Node esquerda, direita;
+                int altura;
+
+                Node(int valor) {
+                    this.valor = valor;
+                    altura = 1;
+                }
+            }
+
+            private Node raiz;
+
+            public int altura(Node h) {
+                if (h == null) return 0;
+                return h.altura;
+            }
+
+            public int fatorbalanceamento(Node h) {
+                if (h == null) return 0;
+                return altura(h.esquerda) + altura(h.direita);
+            }
+
+            public Node getMinValorNode(Node node) {
+                Node atual = node;
+                while (atual.esquerda != null) {
+                    atual = atual.esquerda;
+                } return atual;
+            }
+
+            public Node rotD(Node y) {
+                Node x = y.esquerda;
+                Node sec = x.direita;
+
+                x.direita = y;
+                y.esquerda = sec;
+
+                x.altura = Math.max(altura(x.esquerda), altura(x.direita) + 1);
+                y.altura = Math.max(altura(y.esquerda), altura(y.direita) + 1);
+
+                return y;
+            }
+
+            public Node rotE(Node x) {
+                Node y = x.esquerda;
+                Node sec = y.direita;
+
+                y.direita = x;
+                x.esquerda = sec;
+
+                x.altura = Math.max(altura(x.esquerda), altura(x.direita) + 1);
+                y.altura = Math.max(altura(y.esquerda), altura(x.direita) + 1);
+
+                return y;
+
+            }
+
+            public Node inserir(Node node, int l) {
+                if (node == null){
+                    return new Node(l);
+                }
+
+                if (l > node.valor) {
+                    node.esquerda = inserir(node.esquerda, l);
+                } else if (l < node.valor) {
+                    node.direita = inserir(node.direita, l);
+                }
+                else {
+                    return node;
+                }
+
+                node.altura = 1 + Math.max(altura(node.esquerda), altura(node.direita));
+
+                int eql = fatorbalanceamento(node);
+
+                if (eql > 1 && l < node.esquerda.valor) {
+                    return rotD(node);
+                }
+
+                if (eql < -1 && l > node.direita.valor) {
+                    return rotE(node);
+                }
+
+                if (eql < -1 && l < node.direita.valor) {
+                    node.direita = rotD(node.direita);
+                    return rotE(node);
+                }
+
+                if (eql > 1 && l > node.esquerda.valor) {
+                    node.esquerda = rotE(node.esquerda);
+                    return rotD(node);
+                }
+
+                return node;
+            }
+
+            
+
+            public void buscarPreOrdem(Node node) {
+                if (node != null){
+                    System.out.println(node.valor + " ");
+                    buscarPreOrdem(node.esquerda);
+                    buscarPreOrdem(node.direita);
+                }
+            }
+
+            public void inserir(int l) {
+                raiz = inserir(raiz, l);
+            }
+
+            public void remover(int l) {
+                raiz = remover(raiz, l);
+            }
+
+            public void mostrarPreOrdem() {
+                buscarPreOrdem(raiz);
+                System.out.println();
+            }
+        }
+
     }
+
 }
