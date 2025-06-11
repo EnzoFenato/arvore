@@ -266,6 +266,29 @@ public class Main {
             }
         }
 
+        public class ArvoreRubroNegra {
+
+            private static final boolean VERMELHO = true;
+            private static final boolean PRETO = false;
+
+            private class No {
+                int valor;
+                No esquerda, direita;
+                boolean cor;
+
+                No(int valor) {
+                    this.valor = valor;
+                    this.cor = VERMELHO;
+                }
+            }
+
+             private No raiz;
+
+            private boolean ehVermelho(No no) {
+                if (no == null) return false;
+                return no.cor == VERMELHO;
+            }
+
     }
 
 }
